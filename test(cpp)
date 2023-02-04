@@ -1,51 +1,54 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main() {
-int i;
-string s,p;
-cin>>s;
-stack<char>st;
-st.push('(');
-s+=')';
-for(i=0 ; i<s.size() ; i++){
-    if(s[i]>='A' && s[i]<='Z') p+=s[i];
-    else
+int main()
+{
+    int i;
+    string s,p;
+    cin>>s;
+    stack<char>st;
+    st.push('(');
+    s+=')';
+    for(i=0 ; i<s.size() ; i++)
     {
-        while(1){
-            if((s[i]=='+' || s[i]=='-')&& (st.top()=='+' || st.top()=='-' || st.top()=='*' || st.top()=='/' || st.top()=='^'))
+        if(s[i]>='A' && s[i]<='Z') p+=s[i];
+        else
         {
-            p+=st.top();
-            st.pop();
-        }
-        else if((s[i]=='*' || s[i]=='/')&& (st.top()=='*' || st.top()=='/' || st.top()=='^'))
-        {
-            p+=st.top();
-            st.pop();
-        }
-        else{
-            st.push(s[i]);
-            break;
-        }
-        }
-        if(s[i]=='^') st.push(s[i]);
-        if(s[i]==')')
-        {
-            st.pop();
             while(1)
             {
-                if(st.top()!='(')
+                if(s[i]==')')
                 {
-                    s+=st.top();
+                    while(1)
+                    {
+                        if(st.top()!='(')
+                        {
+                            s+=st.top();
+                            st.pop();
+                        }
+                        else
+                        {
+                            st.pop();
+                            break;
+                        }
+                    }
+                }
+                else if((s[i]=='+' || s[i]=='-')&& (st.top()=='+' || st.top()=='-' || st.top()=='*' || st.top()=='/' || st.top()=='^'))
+                {
+                    p+=st.top();
                     st.pop();
                 }
-                else{
+                else if((s[i]=='*' || s[i]=='/')&& (st.top()=='*' || st.top()=='/' || st.top()=='^'))
+                {
+                    p+=st.top();
                     st.pop();
+                }
+                else
+                {
+                    st.push(s[i]);
                     break;
                 }
             }
         }
     }
-}
-cout<<p;
+    cout<<p;
     return 0;
 }
